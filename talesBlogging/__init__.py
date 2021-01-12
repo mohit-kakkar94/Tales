@@ -7,6 +7,9 @@ from flask_login import LoginManager
 #Set up Flask application
 app = Flask(__name__)
 
+#Set secret key for forms
+app.config["SECRET_KEY"] = "mysecret"
+
 ##################################################
                 #Set up database#
 ##################################################
@@ -37,3 +40,7 @@ app.register_blueprint(errorPages)
 #Register blueprint in talesBlogging/users/views.py
 from talesBlogging.users.views import users
 app.register_blueprint(users)
+
+#Register blueprint in talesBlogging/blogs/views.py
+from talesBlogging.blogs.views import blogPosts
+app.register_blueprint(blogPosts)

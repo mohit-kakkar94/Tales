@@ -2,14 +2,45 @@
 
 {% block content %}
 
-<div class="container">
-  <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
-      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
-      <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+  <div class="container">
+
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+      <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
+        <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+        <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+      </div>
     </div>
+
+    {% for post in blogPosts.items %}
+
+      <div class="card">
+        <div class="card-body">
+          <h4><a class="card-title" href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">{{post.title}}</a></h4>
+          <a href="{{url_for("users.userPosts", username=post.author.username)}}">Author: {{post.author.username}}</a>
+          <p>Published on: {{post.date.strftime("%Y-%m-%d")}}</p>
+          <a class="btn btn-secondary" href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">Continue reading...</a>
+        </div>
+      </div>
+
+    {% endfor %}
+
   </div>
-</div>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% for pageNum in blogPosts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if blogPosts.page == pageNum %} <!-- if on the current page, disable clicking-->
+          <li class="page-item disabled">
+            <a class="page-link" href="{{url_for("core.index", page=pageNum)}}"></a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{url_for("core.index", page=pageNum)}}"></a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
 
 {% endblock %}

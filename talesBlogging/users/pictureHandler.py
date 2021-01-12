@@ -16,4 +16,4 @@ def addProfilePic(picUpload, username):
     pic.thumbnail(outputSize)
     pic.save(filePath)
 
-    return storageFileName 
+    return storageFileName

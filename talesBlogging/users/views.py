@@ -46,8 +46,46 @@ def login():
 
     return render_template("login.html",form=form)
 
-
 @users.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("core.index"))
+
+@users.route("/account", methods=["GET", "POST"])
+@login_required
+def account():
+
+    form = UpdateUserForm()
+
+    if form.validate_on_submit():
+
+        if form.picture.data:
+            username = current_user.username
+            pic = addProfilePic(form.picture.data, username)
+            current_user.profileImage = pic
+
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+
+        db.session.commit()
+
+        return redirect(url_for("users.account"))
+
+    elif request.method == "GET":
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    profileImage = url_for("static", filename="profilePics/" + current_user.profileImage)
+
+    return render_template("account.html", profileImage=profileImage, form=form)
+
+@users.route("/<username>")
+def userPosts(username):
+
+    page = request.args.get("page", 1, type=int) #cycle through posts through pages
+    user = User.query.filter_by(username=username).first_or_404() #Grab the user or if there is no user then grab the 404
+                                                                 #page
+    blogPosts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+    #author is backref for the relationship between User and BlogPost
+
+    return render_template("userBlogPosts.html", blogPosts=blogPosts, user=user)
