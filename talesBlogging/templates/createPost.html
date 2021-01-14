@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
+<br>
+<br>
   <div class="container">
     <form class="form-group" method="POST">
 
@@ -10,12 +12,13 @@
         {{form.title.label(class="form-control-label")}} {{form.title(class="form-control form-control-lg")}}
       </div>
 
+      <br>
       <div class="form-group">
         {{form.text.label(class="form-control-label")}} {{form.text(class="form-control form-control-lg")}}
       </div>
 
       <div class="form-group">
-        {{form.submit(class="btn btn-outline-info")}}
+        {{form.submit(class="btn btn-secondary")}}
       </div>
 
     </form>

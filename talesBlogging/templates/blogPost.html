@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <div class="jumbotron">
-    <h3>{{post.title}}</h3>
-    <h4>Author: {{post.author.username}}</h4>
-    <h5>Date published: {{post.date.strftime("%B %d, %Y")}}</h5>
-    <p>{{post.text}}</p>
+
+<div class="container">
+
+  <br>
+  <div align="center">
+
+    <h3>{{post.title}}</h3><br>
+    <p>Written by: {{post.author.username}}<br>
+       Published on: {{post.date.strftime("%d-%m-%Y")}}</p>
+    <p>{{post.text}}</p><br>
+
+    {% if post.author == current_user %}
+
+      <div>
+        <a href="{{url_for("blogPosts.update", blogPostId=post.id)}}">Update</a>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delModal">Delete</button>
+      </div>
+
+    {% endif %}
+    
   </div>
-
-  {% if post.author == current_user %}
-
-    <div>
-      <a href="{{url_for("blogPosts.update", blogPostId=post.id)}}">Update</a>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
-    </div>
-
-  {% endif %}
 
   <div class="modal" tabindex="-1" role="dialog" id="delModal">
     <div class="modal-dialog" role="document">
@@ -42,5 +48,7 @@
       </div>
     </div>
   </div>
+
+</div>
 
 {% endblock %}

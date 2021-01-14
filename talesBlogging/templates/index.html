@@ -6,13 +6,15 @@
 
     <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
       <div class="col-md-6 px-0">
-        <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
-        <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
-        <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+        <h1><a class="display-4 font-italic text-white" href="{{url_for("blogPosts.blogPost", blogPostId=firstPost.id)}}">{{firstPost.title}}</a></h1>
+        <a class="lead my-3 text-white" href="{{url_for("users.userPosts", username=firstPost.author.username)}}">{{firstPost.author.username}}</a>
+        <p class="lead my-0">{{firstPost.date.strftime("%d-%m-%Y")}}</p>
+        <p class="lead my-2"><a href="{{url_for("blogPosts.blogPost", blogPostId=firstPost.id)}}" class="text-white font-weight-bold">Continue reading...</a></p>
       </div>
     </div>
 
-    {% for post in blogPosts.items %}
+    <!--
+    {% for post in blogPosts.items[1:] %}
 
       <div class="card">
         <div class="card-body">
@@ -24,6 +26,23 @@
       </div>
 
     {% endfor %}
+    -->
+
+    <div class="row mb-2">
+      {% for post in blogPosts.items[1:] %}
+        <div class="col-md-6">
+          <div class="card flex-md-row mb-4 box-shadow h-md-100">
+            <div class="card-body d-flex flex-column align-items-start">
+              <h4><a class="card-title" href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">{{post.title}}</a></h4>
+              <a href="{{url_for("users.userPosts", username=post.author.username)}}">{{post.author.username}}</a>
+              <p>{{post.date.strftime("%d-%m-%Y")}}</p>
+              <a href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">Continue reading</a>
+            </div>
+            <img class="card-img-right flex-auto d-none d-md-block" src="{{url_for("static", filename="profilePics/" + post.author.profileImage)}}" width=100 height=100>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 
   </div>
 

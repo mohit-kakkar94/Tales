@@ -3,22 +3,38 @@
 
   <div class="container">
 
-    <div class="jumbotron">
-      <div class="center">
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+      <div align="center">
         <h3>Posts by {{user.username}}</h3>
         <img src="{{url_for("static", filename="profilePics/" + user.profileImage)}}">
-
       </div>
     </div>
 
-    {% for post in blogPosts.items %} <!-- blogPosts is an object and therefore we use .items -->
+    <!-- blogPosts is an object and therefore we use .items -->
+    <!--
+    {% for post in blogPosts.items %}
       <h4><a href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">{{post.title}}</a></h4>
-      Written by: <a href="url_for("users.userPost", username=post.author.username)}}">{{post.author.username}}</a>
-      <p class="text-muted">Published on: {{post.date.strftime("%Y-%m-%d")}}</p>
-      <br>
-      <p>{{post.text}}</p>
-      <br>
-    {% endfor %}
+      <a href="{{url_for("users.userPosts", username=post.author.username)}}">{{post.author.username}}</a>
+      <p class="text-muted">{{post.date.strftime("%d-%m-%Y")}}</p>
+      <p>{{post.text[:100]}}</p>
+      <p><a href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">Continue reading</a></p>
+    {% endfor %} -->
+
+
+    <div class="row mb-2">
+      {% for post in blogPosts.items %}
+        <div class="col-md-6">
+          <div class="card flex-md-row mb-4 box-shadow h-md-100">
+            <div class="card-body d-flex flex-column align-items-start">
+              <h4><a class="card-title" href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">{{post.title}}</a></h4>
+              <a href="{{url_for("users.userPosts", username=post.author.username)}}">{{post.author.username}}</a>
+              <p>{{post.date.strftime("%d-%m-%Y")}}</p>
+              <a href="{{url_for("blogPosts.blogPost", blogPostId=post.id)}}">Continue reading</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 
   </div>
 

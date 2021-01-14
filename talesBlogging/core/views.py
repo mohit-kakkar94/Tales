@@ -9,7 +9,7 @@ def index():
     page = request.args.get("page", 1, type=int)
     blogPosts = BlogPost.query.order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
 
-    return render_template("index.html", blogPosts=blogPosts)
+    return render_template("index.html", blogPosts=blogPosts, firstPost = blogPosts.items[0])
 
 @core.route("/info")
 def info():

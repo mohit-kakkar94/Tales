@@ -12,7 +12,7 @@ from talesBlogging.models import User
 class RegistrationForm(FlaskForm):
 
     email = StringField("Email", validators = [DataRequired(), Email()])
-    username = StringField("Username", validators = [DataRequired()])
+    username = StringField("Name", validators = [DataRequired()])
     password = PasswordField("Password", validators=[DataRequired(), EqualTo("passConfirm", message="Passwords don't match!")])
     passConfirm = PasswordField("Confirm password", validators=[DataRequired()])
     submit = SubmitField("Sign up")
@@ -28,7 +28,7 @@ class RegistrationForm(FlaskForm):
 class UpdateUserForm(FlaskForm):
 
     email = StringField("Email", validators=[DataRequired(), Email()])
-    username = StringField("Username", validators=[DataRequired()])
+    username = StringField("Name", validators=[DataRequired()])
     picture = FileField("Change profile picture", validators=[FileAllowed(["jpg", "png"])]) #Only jpg and png files allowed
     submit = SubmitField("Update")
 
